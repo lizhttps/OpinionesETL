@@ -56,8 +56,7 @@ var resultados = new List<EtlResult>();
 try
 {
     // ------------------------------------------------------------------
-    // FASE 1: LIMPIEZA GLOBAL (hijas primero, padres después)
-    // Evita violaciones de FK al re-ejecutar el ETL con datos ya cargados.
+    // FASE 1: LIMPIEZA GLOBAL 
     // ------------------------------------------------------------------
     Console.WriteLine("\n[FASE 1] Limpiando tablas (orden inverso de dependencias)...");
 
@@ -101,7 +100,7 @@ catch (Exception ex)
 }
 
 // ----------------------------------------------------------------------
-// RESUMEN FINAL DEL PROCESO ETL (Requisito obligatorio de la rúbrica)
+// RESUMEN FINAL DEL PROCESO ETL 
 // ----------------------------------------------------------------------
 Console.WriteLine("\n================================================================================");
 Console.WriteLine("                         RESUMEN DEL PROCESO ETL                                ");
