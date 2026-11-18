@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OpinionesETL.Data.Daos;
 using OpinionesETL.Data.Daos.Interfaces;
+using OpinionesETL.Data.Extractors;
 using OpinionesETL.Data.Logging;
 using OpinionesETL.Data.Models;
 using OpinionesETL.Data.Services;
@@ -17,6 +18,13 @@ var host = Host.CreateDefaultBuilder(args)
         {
             builder.AddConsole();
         });
+
+        // Registro de Extractors y ExtractionService
+        services.AddHttpClient();
+        services.AddTransient<CsvExtractor>();
+        services.AddTransient<DatabaseExtractor>();
+        services.AddTransient<ApiExtractor>();
+        services.AddTransient<ExtractionService>();
 
         // DbContext con la cadena de conexión
         services.AddDbContext<CustomerReviewsDBContext>(options =>
@@ -55,6 +63,12 @@ var resultados = new List<EtlResult>();
 
 try
 {
+    // ------------------------------------------------------------------
+    // FASE 0: EXTRACCIÓN (Requisito del Proyecto)
+    // ------------------------------------------------------------------
+    var extractionService = provider.GetRequiredService<ExtractionService>();
+    await extractionService.RunExtractionAsync();
+
     // ------------------------------------------------------------------
     // FASE 1: LIMPIEZA GLOBAL 
     // ------------------------------------------------------------------
