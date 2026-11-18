@@ -13,7 +13,7 @@ namespace OpinionesETL.Data.Extractors
             _filePath = configuration["SurveysFilePath"] ?? string.Empty;
         }
 
-        public async Task<List<CSV.Surveys>> ExtractAsync()
+        public async Task<List<CSV.Surveys>> ExtractAsync(CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrEmpty(_filePath) || !File.Exists(_filePath))
                 throw new FileNotFoundException($"Archivo CSV no encontrado en la ruta: '{_filePath}'");
@@ -22,7 +22,7 @@ namespace OpinionesETL.Data.Extractors
             using var reader = new StreamReader(_filePath);
             using var csv = new CsvReader(reader, System.Globalization.CultureInfo.InvariantCulture);
 
-            await foreach (var record in csv.GetRecordsAsync<CSV.Surveys>())
+            await foreach (var record in csv.GetRecordsAsync<CSV.Surveys>(cancellationToken))
             {
                 records.Add(record);
             }

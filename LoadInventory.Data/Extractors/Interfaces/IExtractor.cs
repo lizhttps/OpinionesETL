@@ -2,6 +2,6 @@
 {
     public interface IExtractor<T>
     {
-        Task<List<T>> ExtractAsync();
+        Task<List<T>> ExtractAsync(CancellationToken cancellationToken = default);
     }
 }

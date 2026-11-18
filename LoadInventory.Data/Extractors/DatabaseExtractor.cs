@@ -13,11 +13,11 @@ namespace OpinionesETL.Data.Extractors
             _context = context;
         }
 
-        public async Task<List<WebReview>> ExtractAsync()
+        public async Task<List<WebReview>> ExtractAsync(CancellationToken cancellationToken = default)
         {
             return await _context.WebReviews
                 .AsNoTracking()
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
     }
 }
