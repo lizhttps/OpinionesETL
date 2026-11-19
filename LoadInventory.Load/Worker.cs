@@ -32,7 +32,7 @@ namespace OpinionesETL.Load
             try
             {
                 // ------------------------------------------------------------------
-                // FASE 0: EXTRACCIÓN (Requisito Práctica 1)
+                // FASE 0: EXTRACCIÓN 
                 // ------------------------------------------------------------------
                 var extractionService = provider.GetRequiredService<ExtractionService>();
                 await extractionService.RunExtractionAsync();
@@ -54,7 +54,7 @@ namespace OpinionesETL.Load
                 // ------------------------------------------------------------------
                 Console.WriteLine("\n[FASE 2] Cargando datos...");
 
-                // 1. Cargar tablas maestras
+                //  Cargar tablas maestras
                 var clienteService = provider.GetRequiredService<ClienteService>();
                 resultados.Add(await clienteService.LoadClientesAsync());
 
@@ -64,7 +64,7 @@ namespace OpinionesETL.Load
                 var fuenteDatoService = provider.GetRequiredService<FuenteDatoService>();
                 resultados.Add(await fuenteDatoService.LoadFuenteDatosAsync());
 
-                // 2. Cargar tablas dependientes
+                // Cargar tablas dependientes
                 var webReviewService = provider.GetRequiredService<WebReviewService>();
                 resultados.Add(await webReviewService.LoadWebReviewsAsync());
 
@@ -85,7 +85,7 @@ namespace OpinionesETL.Load
             // RESUMEN FINAL DEL PROCESO ETL 
             // ----------------------------------------------------------------------
             Console.WriteLine("\n================================================================================");
-            Console.WriteLine("                         RESUMEN DEL PROCESO ETL                                ");
+            Console.WriteLine("                         RESUMEN DEL PROCESO ETL.                                ");
             Console.WriteLine("================================================================================");
             Console.WriteLine(string.Format("{0,-18} | {1,-10} | {2,-10} | {3,-10} | {4,-10}",
                 "Tabla", "Procesados", "Insertados", "Rechazados", "Estado"));
