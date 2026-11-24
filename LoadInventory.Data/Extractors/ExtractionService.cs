@@ -5,6 +5,7 @@ using OpinionesETL.Data.Models;
 
 namespace OpinionesETL.Data.Extractors
 {
+    
     public class ExtractionService
     {
         private readonly CsvExtractor _csvExtractor;
@@ -33,7 +34,7 @@ namespace OpinionesETL.Data.Extractors
 
             var stopwatchTotal = Stopwatch.StartNew();
 
-            // 1. Extracción CSV (Encuestas)
+            //  Extracción CSV 
             try
             {
                 var sw = Stopwatch.StartNew();
@@ -48,7 +49,7 @@ namespace OpinionesETL.Data.Extractors
                 _logger.LogError(ex, "[CSV] Error extrayendo encuestas.");
             }
 
-            // 2. Extracción Base de Datos (WebReviews)
+            // Extracción Base de Datos 
             try
             {
                 var sw = Stopwatch.StartNew();
@@ -63,7 +64,7 @@ namespace OpinionesETL.Data.Extractors
                 _logger.LogError(ex, "[BD] Error extrayendo reseñas desde la BD.");
             }
 
-            // 3. Extracción API REST (SocialComments)
+            // Extracción api rest
             try
             {
                 var sw = Stopwatch.StartNew();

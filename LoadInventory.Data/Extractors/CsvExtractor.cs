@@ -4,6 +4,8 @@ using OpinionesETL.Data.Extractors.Interfaces;
 
 namespace OpinionesETL.Data.Extractors
 {
+
+    // Clase CsvExtractor que implementa la interfaz IExtractor para extraer datos de un archivo CSV.
     public class CsvExtractor : IExtractor<CSV.Surveys>
     {
         private readonly string _filePath;
