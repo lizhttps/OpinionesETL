@@ -9,6 +9,7 @@ using OpinionesETL.Data.Extractors;
 using OpinionesETL.Data.Logging;
 using OpinionesETL.Data.Models;
 using OpinionesETL.Data.Services;
+using OpinionesETL.Data.Models.DW;
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
@@ -29,6 +30,11 @@ var host = Host.CreateDefaultBuilder(args)
         // DbContext con la cadena de conexión
         services.AddDbContext<CustomerReviewsDBContext>(options =>
             options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection")));
+
+        // DbContext del Data Warehouse
+        services.AddDbContext<OpinionesDwContext>(options =>
+            options.UseSqlServer(context.Configuration.GetConnectionString("DwConnection")));
+        services.AddTransient<DwDimensionService>();
 
         // Logger propio desacoplado
         services.AddTransient(typeof(IAppLogger<>), typeof(AppLogger<>));
@@ -105,6 +111,17 @@ try
 
     var socialCommentService = provider.GetRequiredService<SocialCommentService>();
     resultados.Add(await socialCommentService.LoadSocialCommentsAsync());
+
+    // ------------------------------------------------------------------
+    // FASE 3: CARGA DE DIMENSIONES DEL DATAWAREHOUSE (OpinionesClientes_DW)
+    // ------------------------------------------------------------------
+    Console.WriteLine("\n[FASE 3] Cargando dimensiones en OpinionesClientes_DW...");
+    var dwService = provider.GetRequiredService<DwDimensionService>();
+    resultados.Add(await dwService.LoadDimClientesAsync());
+    resultados.Add(await dwService.LoadDimProductosAsync());
+    resultados.Add(await dwService.LoadDimFuenteAsync());
+    resultados.Add(await dwService.LoadDimFechaAsync());
+    resultados.Add(await dwService.LoadDimClasificacionAsync());
 }
 catch (Exception ex)
 {
